@@ -85,8 +85,10 @@ const updateUI = function (acc) {
   calcDisplaySummary(acc);
 };
 
-const displayMovements = function (movements) {
+const displayMovements = function (movements, sort = false) {
   containerMovements.innerHTML = "";
+
+  const movs = sort ? movements.slice().sort((a, b) => a - b) : movements;
 
   movements.forEach(function (mov, i) {
     const type = mov > 0 ? "deposit" : "withdrawal";
@@ -217,4 +219,11 @@ btnLoan.addEventListener("click", function (e) {
     updateUI(currentAccount);
   }
   inputLoanAmount.value = "";
+});
+
+let sorted = false;
+btnSort.addEventListener("click", function (e) {
+  e.preventDefault();
+  displayMovements(currentAccount.movements, !sorted);
+  sorted = !sorted;
 });
